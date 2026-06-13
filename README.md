@@ -1,116 +1,156 @@
 # EagleEye
 
-A powerful monitoring and surveillance system designed to provide real-time insights and comprehensive analytics for enhanced visibility and control.
+Mobile object detection application that identifies specific objects mentioned in chat using ML Kit vision capabilities.
 
 ## Overview
 
-EagleEye is an intelligent monitoring solution that combines advanced detection capabilities with intuitive analytics to help you stay informed and make data-driven decisions. Whether you're monitoring infrastructure, applications, or systems, EagleEye provides the visibility you need.
+EagleEye is an Android application designed to perform real-time object detection and recognition. Users can specify objects through the chat interface, and the app identifies and analyzes only those specific objects in the camera feed using Google ML Kit's vision APIs.
 
 ## Features
 
-✨ **Real-Time Monitoring**
-- Live tracking and instant alerts
-- Continuous system health checks
-- Immediate threat detection and notification
+📸 **Real-Time Object Detection**
+- Live camera feed processing
+- ML Kit-powered vision analysis
+- Smooth performance on mobile devices
 
-📊 **Advanced Analytics**
-- Comprehensive data visualization
-- Historical trend analysis
-- Performance metrics and insights
+💬 **Chat-Based Object Specification**
+- Specify objects to detect via chat
+- Search for specific item types
+- Simple, intuitive user interface
 
-🔔 **Intelligent Alerts**
-- Smart notifications with customizable thresholds
-- Multi-channel alerting (email, webhook, dashboard)
-- Intelligent filtering to reduce alert fatigue
+🎯 **Targeted Detection**
+- Identifies only specified objects
+- Filters irrelevant detections
+- Focused recognition results
 
-🛡️ **Security & Compliance**
-- Secure data handling and encryption
-- Audit trails and compliance reporting
-- Role-based access control
+📱 **Android-Native Implementation**
+- Built with Kotlin
+- Material Design UI
+- Battery-efficient processing
 
-⚙️ **Integration Ready**
-- RESTful APIs for seamless integration
-- Support for multiple data sources
-- Extensible plugin architecture
+## Project Status
 
-## Quick Start
+⚠️ **In Development** - This is a work-in-progress project exploring ML Kit integration for specific object detection in mobile applications.
 
-### Prerequisites
+## Prerequisites
 
-- Node.js 14.0 or higher
-- npm or yarn package manager
-- Git
+- Android 8.0 (API level 26) or higher
+- Android Studio Arctic Fox or newer
+- Gradle 7.0+
+- Google ML Kit dependencies
 
-### Installation
+## Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/axilyaai/EagleEye.git
 
-# Navigate to the project directory
+# Open in Android Studio
 cd EagleEye
-
-# Install dependencies
-npm install
-```
-
-### Configuration
-
-Create a `.env` file in the root directory with your configuration:
-
-```env
-PORT=3000
-NODE_ENV=development
-LOG_LEVEL=info
-```
-
-### Running the Application
-
-```bash
-# Development mode
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
-```
-
-## Usage
-
-### Basic Example
-
-```javascript
-import { EagleEye } from './index.js';
-
-const monitor = new EagleEye({
-  interval: 5000, // Check every 5 seconds
-  alertThreshold: 80
-});
-
-monitor.start();
+# File → Open → Select project directory
 ```
 
 ## Project Structure
 
 ```
 EagleEye/
-├── src/
-│   ├── components/
-│   ├── services/
-│   ├── utils/
-│   └── index.js
-├── tests/
-├── docs/
-├── .env.example
-├── package.json
+├── app/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/com/axilyaai/eagleeye/
+│   │   │   │   ├── ui/
+│   │   │   │   ├── detection/
+│   │   │   │   ├── chat/
+│   │   │   │   └── MainActivity.kt
+│   │   │   └── res/
+│   │   └── test/
+│   └── build.gradle
+├── gradle/
+├── settings.gradle
 └── README.md
 ```
 
-## API Documentation
+## Key Technologies
 
-For detailed API documentation, visit [API Docs](./docs/API.md).
+- **ML Kit Vision** - Object detection and image labeling
+- **Kotlin** - Primary language
+- **Android Camera2 API** - Camera integration
+- **CameraX** (optional) - Simplified camera handling
+- **Material Design** - UI components
+- **LiveData** - Data observation
+- **ViewModel** - Architecture component
+
+## Implementation Details
+
+### ML Kit Integration
+
+```kotlin
+val detector = MLKitObjectDetector(context)
+detector.detectObject(bitmap) { results ->
+    // Process detection results
+    results.forEach { label ->
+        // Identify specific objects
+    }
+}
+```
+
+### Chat-Based Object Specification
+
+Users input object names through the chat interface:
+- Example: User types "glasses" → App detects only glasses in camera feed
+- Example: User types "phone" → App identifies phones
+
+## Building the Project
+
+```bash
+# Debug build
+./gradlew assembleDebug
+
+# Release build
+./gradlew assembleRelease
+
+# Run on emulator
+./gradlew installDebug
+./gradlew connectedAndroidTest
+```
+
+## Current Limitations
+
+- ⏳ Project is incomplete - exploring ML Kit capabilities
+- 🔄 Chat-to-detection pipeline under development
+- 📊 Limited object categories at this stage
+- 🎯 Accuracy improvements needed
+
+## Future Enhancements
+
+- [ ] Complete chat interface implementation
+- [ ] Expand object detection categories
+- [ ] Improve accuracy and performance
+- [ ] Add object bounding box visualization
+- [ ] Implement result caching
+- [ ] Add multiple object simultaneous detection
+- [ ] Performance optimization for lower-end devices
+
+## Troubleshooting
+
+### Camera Permission Issues
+```
+Make sure to request CAMERA permission in AndroidManifest.xml
+and handle runtime permissions for Android 6.0+
+```
+
+### ML Kit Model Loading
+```
+Ensure Google Play Services is up to date
+Check that ML Kit dependencies are correctly added to build.gradle
+```
+
+### Performance Issues
+```
+Reduce camera resolution
+Limit detection frequency
+Process on background thread
+```
 
 ## Contributing
 
@@ -122,63 +162,25 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Code Style
+## Code Style
 
-- Use ESLint for code formatting
-- Follow the existing code conventions
+- Follow Kotlin conventions
+- Use meaningful variable names
+- Add comments for complex logic
 - Write meaningful commit messages
 
 ## Testing
 
 ```bash
-# Run all tests
-npm test
+# Run unit tests
+./gradlew test
 
-# Run tests with coverage
-npm run test:coverage
+# Run instrumented tests
+./gradlew connectedAndroidTest
 
-# Run tests in watch mode
-npm run test:watch
+# Run specific test class
+./gradlew testDebugUnitTest --tests com.axilyaai.eagleeye.detection.*
 ```
-
-## Troubleshooting
-
-### Common Issues
-
-**Issue: Port already in use**
-```bash
-# Change the PORT in .env file or use a different port
-PORT=3001 npm start
-```
-
-**Issue: Dependencies installation fails**
-```bash
-# Clear npm cache and reinstall
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## Performance
-
-- Optimized for low latency monitoring
-- Minimal resource footprint
-- Scalable architecture for enterprise use
-
-## Security
-
-- Data encryption in transit and at rest
-- Regular security audits
-- Vulnerability scanning and patching
-- Compliance with OWASP standards
-
-## Roadmap
-
-- [ ] Machine learning-based anomaly detection
-- [ ] Mobile app for on-the-go monitoring
-- [ ] Enhanced dashboard customization
-- [ ] Advanced reporting engine
-- [ ] Community marketplace for integrations
 
 ## License
 
@@ -186,9 +188,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- Thanks to all contributors
-- Community feedback and suggestions
-- Inspired by best practices in monitoring systems
+- Google ML Kit for vision APIs
+- Android development community
+- Built with assistance from Claude AI
+- Inspired by computer vision applications
 
 ---
 
