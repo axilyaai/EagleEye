@@ -1,200 +1,54 @@
 # EagleEye
 
-Mobile object detection application that identifies specific objects mentioned in chat using ML Kit vision capabilities.
-
-## Overview
-
-EagleEye is an Android application designed to perform real-time object detection and recognition. Users can specify objects through the chat interface, and the app identifies and analyzes only those specific objects in the camera feed using Google ML Kit's vision APIs.
-
-## Features
-
-📸 **Real-Time Object Detection**
-- Live camera feed processing
-- ML Kit-powered vision analysis
-- Smooth performance on mobile devices
-
-💬 **Chat-Based Object Specification**
-- Specify objects to detect via chat
-- Search for specific item types
-- Simple, intuitive user interface
-
-🎯 **Targeted Detection**
-- Identifies only specified objects
-- Filters irrelevant detections
-- Focused recognition results
-
-📱 **Android-Native Implementation**
-- Built with Kotlin
-- Material Design UI
-- Battery-efficient processing
-
-## Project Status
-
-⚠️ **In Development** - This is a work-in-progress project exploring ML Kit integration for specific object detection in mobile applications.
-
-## Prerequisites
-
-- Android 8.0 (API level 26) or higher
-- Android Studio Arctic Fox or newer
-- Gradle 7.0+
-- Google ML Kit dependencies
-
-## Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/axilyaai/EagleEye.git
-
-# Open in Android Studio
-cd EagleEye
-# File → Open → Select project directory
-```
-
-## Project Structure
-
-```
-EagleEye/
-├── app/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/axilyaai/eagleeye/
-│   │   │   │   ├── ui/
-│   │   │   │   ├── detection/
-│   │   │   │   ├── chat/
-│   │   │   │   └── MainActivity.kt
-│   │   │   └── res/
-│   │   └── test/
-│   └── build.gradle
-├── gradle/
-├── settings.gradle
-└── README.md
-```
-
-## Key Technologies
-
-- **ML Kit Vision** - Object detection and image labeling
-- **Kotlin** - Primary language
-- **Android Camera2 API** - Camera integration
-- **CameraX** (optional) - Simplified camera handling
-- **Material Design** - UI components
-- **LiveData** - Data observation
-- **ViewModel** - Architecture component
-
-## Implementation Details
-
-### ML Kit Integration
-
-```kotlin
-val detector = MLKitObjectDetector(context)
-detector.detectObject(bitmap) { results ->
-    // Process detection results
-    results.forEach { label ->
-        // Identify specific objects
-    }
-}
-```
-
-### Chat-Based Object Specification
-
-Users input object names through the chat interface:
-- Example: User types "glasses" → App detects only glasses in camera feed
-- Example: User types "phone" → App identifies phones
-
-## Building the Project
-
-```bash
-# Debug build
-./gradlew assembleDebug
-
-# Release build
-./gradlew assembleRelease
-
-# Run on emulator
-./gradlew installDebug
-./gradlew connectedAndroidTest
-```
-
-## Current Limitations
-
-- ⏳ Project is incomplete - exploring ML Kit capabilities
-- 🔄 Chat-to-detection pipeline under development
-- 📊 Limited object categories at this stage
-- 🎯 Accuracy improvements needed
-
-## Future Enhancements
-
-- [ ] Complete chat interface implementation
-- [ ] Expand object detection categories
-- [ ] Improve accuracy and performance
-- [ ] Add object bounding box visualization
-- [ ] Implement result caching
-- [ ] Add multiple object simultaneous detection
-- [ ] Performance optimization for lower-end devices
-
-## Troubleshooting
-
-### Camera Permission Issues
-```
-Make sure to request CAMERA permission in AndroidManifest.xml
-and handle runtime permissions for Android 6.0+
-```
-
-### ML Kit Model Loading
-```
-Ensure Google Play Services is up to date
-Check that ML Kit dependencies are correctly added to build.gradle
-```
-
-### Performance Issues
-```
-Reduce camera resolution
-Limit detection frequency
-Process on background thread
-```
-
-## Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Code Style
-
-- Follow Kotlin conventions
-- Use meaningful variable names
-- Add comments for complex logic
-- Write meaningful commit messages
-
-## Testing
-
-```bash
-# Run unit tests
-./gradlew test
-
-# Run instrumented tests
-./gradlew connectedAndroidTest
-
-# Run specific test class
-./gradlew testDebugUnitTest --tests com.axilyaai.eagleeye.detection.*
-```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Google ML Kit for vision APIs
-- Android development community
-- Built with assistance from Claude AI
-- Inspired by computer vision applications
+> ⚠️ **This project is discontinued.**
+> EagleEye was an early experiment in on-device object detection for Android.
+> Development stopped when ML Kit proved too limited for the intended use case.
+> The project evolved into **[IronVision](https://github.com/axilyaai/IronVision)**,
+> which takes a different approach (server-side YOLOv8 instead of on-device ML Kit).
+>
+> The code is kept here as a reference and as part of the development history.
 
 ---
 
-**Made with ❤️ by Ali Sefa AKKAŞ and Claude**
+## What it was
 
-[⬆ Back to top](#eagleeye)
+EagleEye was an Android app that combined a live camera feed with object detection and a voice/text command interface. The goal: point your phone at a scene, type or say something like *"find the notebook"*, and have the app highlight matching objects on screen — entirely offline, no server required.
+
+## What got built
+
+- **Live camera preview** with CameraX
+- **On-device object detection** via Google ML Kit
+- **Voice input** using Android's built-in `SpeechRecognizer`
+- **Offline keyword parser** (`KeywordParser`) — maps natural language phrases to COCO object categories without any LLM or internet connection
+- **Detection overlay** drawing bounding boxes with corner markers around recognized objects
+- MVVM architecture with Hilt for dependency injection
+
+## Why it stopped
+
+ML Kit's on-device object detector returns only broad category labels like *"Home good"* or *"Fashion good"* — not specific object names. This made the core feature (finding a specific object by name) impractical. Rather than integrating a heavier on-device model, the project was redirected toward a PC-assisted approach where a proper YOLOv8 model runs on the computer and streams results to the phone. That became IronVision.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Language | Kotlin |
+| UI | Jetpack Compose, Material 3 |
+| Camera | CameraX |
+| Detection | Google ML Kit (Object Detection) |
+| Voice input | Android SpeechRecognizer |
+| DI | Hilt |
+| Architecture | MVVM |
+
+## Building it
+
+```bash
+git clone https://github.com/axilyaai/EagleEye.git
+cd EagleEye
+./gradlew assembleDebug
+```
+
+Open in Android Studio and run on a device with Android 8.0+ (API 26).
+Grant camera and microphone permissions on first launch.
+
+---
+
